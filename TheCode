@@ -1,0 +1,32 @@
+# For Q? ask: hatem.yazidi@gmail.com 
+import geopandas as gpd
+import matplotlib.pyplot as plt
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+
+# Load the shapefile
+shapefile_path = r"C:\Users\HP\Documents\Python Scripts\shape.shp"
+gdf = gpd.read_file(shapefile_path)
+
+# Extract longitude and latitude
+lons = gdf.geometry.x
+lats = gdf.geometry.y
+
+# Create a figure with Cartopy projection
+fig, ax = plt.subplots(figsize=(10, 6), subplot_kw={"projection": ccrs.PlateCarree()})
+
+# Add background features (land, coastlines, borders, rivers)
+ax.add_feature(cfeature.LAND, color="lightgray")
+ax.add_feature(cfeature.COASTLINE, linewidth=0.8)
+ax.add_feature(cfeature.BORDERS, linestyle=":")
+ax.add_feature(cfeature.RIVERS, alpha=0.5)
+
+# Plot the shapefile points
+ax.scatter(lons, lats, color="white", s=10, alpha=0.7, label="Data Points", transform=ccrs.PlateCarree())
+
+# Set title and labels
+ax.set_title("NetCDF Data Points on Map", fontsize=14)
+ax.legend()
+
+# Show the plot
+plt.show()
